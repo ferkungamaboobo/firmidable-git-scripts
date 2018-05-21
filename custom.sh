@@ -178,8 +178,8 @@ function db_pull() {
 		if [ -f "wp-config.php" ] 
 		then
 			echo -e '\e[33mDumping main WordPress tables to db.sql file...\e[0m'
-			echo -e '\e[92mmysqldump -u '"$DBUSER"' -p'"$DBPASS"' '"$DBNAME"' '"$DBPRFX"'postmeta '"$DBPRFX"'posts '"$DBPRFX"'terms '"$DBPRFX"'termmeta '"$DBPRFX"'term_relationships '"$DBPRFX"'term_taxonomy > db.sql\e[0m'
-			mysqldump -u "$DBUSER" -p"$DBPASS" "$DBNAME" "$DBPRFX"postmeta "$DBPRFX"posts "$DBPRFX"terms "$DBPRFX"termmeta "$DBPRFX"term_relationships "$DBPRFX"term_taxonomy > db.sql
+			echo -e '\e[92mmysqldump -u '"$DBUSER"' -p'"$DBPASS"' '"$DBNAME"' '"$DBPRFX"'postmeta '"$DBPRFX"'posts '"$DBPRFX"'terms '"$DBPRFX"'termmeta '"$DBPRFX"'term_relationships '"$DBPRFX"'term_taxonomy '"$DBPRFX"'options > db.sql\e[0m'
+			mysqldump -u "$DBUSER" -p"$DBPASS" "$DBNAME" "$DBPRFX"postmeta "$DBPRFX"posts "$DBPRFX"terms "$DBPRFX"termmeta "$DBPRFX"term_relationships "$DBPRFX"term_taxonomy "$DBPRFX"options > db.sql
 		elif [ -f "cms/expressionengine/config/database.php" ]
 		then
 			echo -e '\e[33mDumping main ExpressionEngine tables to db.sql file...\e[0m'
@@ -200,20 +200,23 @@ function git_roll_live() {
 	echo -e '\e[33mMerging dev up to live!\e[0m'
 	echo -e '\e[92mgit merge dev\e[0m'
 	git merge dev
-	source .database.sh
-	echo -e '\e[33mPushing db.sql file to the live database...\e[0m'
-	echo -e '\e[92mmysql -u '"$DBUSER"' -p'"$DBPASS"' '"$DBNAME"' < db.sql\e[0m'
-	mysql -u "$DBUSER" -p"$DBPASS" "$DBNAME" < db.sql
-	if [ -f "wp-config.php" ]
+	if [ -f ".database.sh" ]
 	then
-		echo -e '\e[33mUpdating WordPress _options table to match the live site url...\e[0m'
-		echo -e '\e[92mmysql -u '"$DBUSER"' -p\x27'"$DBPASS"'\x27 '"$DBNAME"' -e \x22UPDATE '"$DBPRFX"'options SET option_name=\x27siteurl\x27, option_value=\x27'"$SITEHM"'\x27 WHERE option_id = 1;\x22\e[0m'
-		mysql -u "$DBUSER" -p"$DBPASS" "$DBNAME" -e "UPDATE "$DBPRFX"options SET option_name='siteurl', option_value='$SITEHM' WHERE option_id = 1;"
-		echo -e '\e[92mmysql -u '"$DBUSER"' -p\x27'"$DBPASS"'\x27 '"$DBNAME"' -e \x22UPDATE '"$DBPRFX"'options SET option_name=\x27home\x27, option_value=\x27'"$SITEHM"'\x27 WHERE option_id = 2;\x22\e[0m'
-		mysql -u "$DBUSER" -p"$DBPASS" "$DBNAME" -e "UPDATE "$DBPRFX"options SET option_name='home', option_value='$SITEHM' WHERE option_id = 2;"
-	elif  [ -f "cms/expressionengine/config/database.php" ]
-	then
-		echo -e '\e[93mPlease log into the live site ExpressionEngine backend and update the site url! \e[0m'
+		source .database.sh
+		echo -e '\e[33mPushing db.sql file to the live database...\e[0m'
+		echo -e '\e[92mmysql -u '"$DBUSER"' -p'"$DBPASS"' '"$DBNAME"' < db.sql\e[0m'
+		mysql -u "$DBUSER" -p"$DBPASS" "$DBNAME" < db.sql
+		if [ -f "wp-config.php" ]
+		then
+			echo -e '\e[33mUpdating WordPress _options table to match the live site url...\e[0m'
+			echo -e '\e[92mmysql -u '"$DBUSER"' -p\x27'"$DBPASS"'\x27 '"$DBNAME"' -e \x22UPDATE '"$DBPRFX"'options SET option_name=\x27siteurl\x27, option_value=\x27'"$SITEHM"'\x27 WHERE option_id = 1;\x22\e[0m'
+			mysql -u "$DBUSER" -p"$DBPASS" "$DBNAME" -e "UPDATE "$DBPRFX"options SET option_name='siteurl', option_value='$SITEHM' WHERE option_id = 1;"
+			echo -e '\e[92mmysql -u '"$DBUSER"' -p\x27'"$DBPASS"'\x27 '"$DBNAME"' -e \x22UPDATE '"$DBPRFX"'options SET option_name=\x27home\x27, option_value=\x27'"$SITEHM"'\x27 WHERE option_id = 2;\x22\e[0m'
+			mysql -u "$DBUSER" -p"$DBPASS" "$DBNAME" -e "UPDATE "$DBPRFX"options SET option_name='home', option_value='$SITEHM' WHERE option_id = 2;"
+		elif  [ -f "cms/expressionengine/config/database.php" ]
+		then
+			echo -e '\e[93mPlease log into the live site ExpressionEngine backend and update the site url! \e[0m'
+		fi
 	fi
 }
 
