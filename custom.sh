@@ -11,7 +11,7 @@ function custom_sh() {
 function create_dev_site() {
 	echo -e '\e[33mCreating dev site...\e[0m'
 	echo -e '\e[92mrsync -r --exclude='/dev/' * dev/\e[0m'
-	rync -r --exclude='/dev/' * dev/
+	rsync -r --exclude='/dev/' * dev/
 	echo -e '\e[33mLive site copied to /dev!\e[0m'
 }
 
