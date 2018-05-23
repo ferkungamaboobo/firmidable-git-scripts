@@ -56,7 +56,7 @@ function db_dev() {
 			echo -e '\e[33mDumping live database to temporary file...\e[0m'
 			echo -e '\e[92mmysql -u '"$DBUSER"' -p\x27'"$DBPASS"'\x27 '"$DBNAME"' > dev/db_upload.sql\e[0m'
 			mysqldump -u "$DBUSER" -p"$DBPASS" "$DBNAME" > dev/db_upload.sql
-			echo -e '\e[33mDTemp file created!\e[0m'
+			echo -e '\e[33mTemp file created!\e[0m'
 			echo -e '\e[33mUploading temp file as table...\e[0m'
 			echo -e '\e[92mmysql -u '"$DBUSER"' -p\x27'"$DBPASS"'\x27 '"$DDNAME"' < dev/db_upload.sql\e[0m'
 			mysql -u "$DBUSER" -p"$DBPASS" "$DDNAME" < dev/db_upload.sql
