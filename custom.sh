@@ -29,7 +29,7 @@ function git_start() {
 	echo -e '\e[92git init\e[0m'
 	git init
 	echo -e '\e[33mCreating gitignore file...\e[0m'
-	echo -e '\e[92touch .gitignore\e[0m'
+	echo -e '\e[92mtouch .gitignore\e[0m'
 	touch .gitignore
 	echo -e '\e[33mAdding what files to ignore to .gitignore...\e[0m'
 	echo -e '\e[92mecho $"'".well-known/\n.well-known/**\ndev/\ndev/**\nnew/\nnew/**\nold/\nold/**\ncgi-bin/\ncgi-bin/**\n.ftpquota\n.database.sh\n.htaccess\n*.key\nwp-config.php\ncms/expressionengine/config/database.php"'" > .gitignore\e[0m'
