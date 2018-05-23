@@ -72,15 +72,6 @@ function db_dev() {
 			echo -e '\e[33mChanging permissions on dev .database.sh file...\e[0m'
 			echo -e '\e[92mchmod 0660 dev/.database.sh\e[0m'
 			chmod 0660 dev/.database.sh
-			echo -e '\e[33mRemoving .database.sh from being tracked in git on the dev branch...\e[0m'
-			echo '\e[92mcd dev\e[0m'
-			cd dev
-			echo '\e[92mgit update-index --add .database.sh\e[0m'
-			git update-index --add .database.sh
-			echo '\e[92mgit update-index --skip-worktree .database.sh\e[0m'
-			git update-index --skip-worktree .database.sh
-			echo '\e[92mcd ../\e[0m'
-			cd ../
 			if [ -f "wp-config.php" ]
 			then 
 				echo -e '\e[33mUpdating WordPress _options table to match the dev site url...\e[0m'
@@ -115,15 +106,6 @@ function git_dev() {
 	echo -e '\e[33mCopying .htaccess...\e[0m'
 	echo -e '\e[92mcp -p .htaccess dev/\e[0m'
 	cp -p .htaccess dev/
-	echo -e '\e[33mRemoving .htaccess from being tracked in git on the dev branch...\e[0m'
-	echo -e '\e[92mcd dev\e[0m'
-	cd dev/
-	echo -e '\e[92mgit update-index --add .htaccess\e[0m'
-	git update-index --add .htaccess
-	echo -e '\e[92mgit update-index --skip-worktree .htaccess\e[0m'
-	git update-index --skip-worktree .htaccess
-	echo -e '\e[92mcd ../\e[0m'
-	cd ../
 	if [ -f ".database.sh" ]
 	then
 		db_dev
@@ -139,15 +121,6 @@ function git_dev() {
 			echo -e '\e[33mReplacing the live database with the dev database in wp-config.php...\e[0m'
 			echo -e '\e[92msed -i "s/'"$DBNAME"'/'"$DDNAME"'/g" dev/wp-config.php\e[0m'
 			sed -i "s/$DBNAME/$DDNAME/g" dev/wp-config.php
-			echo -e '\e[33mRemoving wp-config.php from being tracked in git on the dev branch...\e[0m'
-			echo -e '\e[92mcd dev\e[0m'
-			cd dev/
-			echo -e '\e[92mgit update-index --add wp-config.php\e[0m'
-			git update-index --add wp-config.php
-			echo -e '\e[92mgit update-index --skip-worktree wp-config.php\e[0m'
-			git update-index --skip-worktree wp-config.php
-			echo -e '\e[92mcd ../\e[0m'
-			cd ../
 	elif [ -f "cms/expressionengine/config/database.php" ]
 		then
 			echo -e '\e[33mCopying database.php...\e[0m'
@@ -156,15 +129,6 @@ function git_dev() {
 			echo -e '\e[33mReplacing the live database with the dev database in database.php...\e[0m'
 			echo -e '\e[92msed -i "s/'"$DBNAME"'/'"$DDNAME"'/g" dev/cms/expressionengine/config/database.php\e[0m'
 			sed -i "s/$DBNAME/$DDNAME/g" dev/cms/expressionengine/config/database.php
-			echo -e '\e[33mRemoving database.php from being tracked in git on the dev branch...\e[0m'
-			echo -e '\e[92mcd dev\e[0m'
-			cd dev/
-			echo -e '\e[92mgit update-index --add cms/expressionengine/config/database.php\e[0m'
-			git update-index --add cms/expressionengine/config/database.php
-			echo -e '\e[92mgit update-index --skip-worktree cms/expressionengine/config/database.php\e[0m'
-			git update-index --skip-worktree cms/expressionengine/config/database.php
-			echo -e '\e[92mcd ../\e[0m'
-			cd ../
 			echo -e '\e[93mPlease log into the dev site ExpressionEngine backend and update the site url!\e[0m'
 	fi
 	echo -e '\e[93mPlease check the .htaccess to ensure the dev site resolves\e[0m'
