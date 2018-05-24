@@ -81,7 +81,7 @@ function db_dev() {
 				mysql -u "$DBUSER" -p"$DBPASS" "$DDNAME" -e "UPDATE "$DBPRFX"options SET option_name='home', option_value='$SITEDM' WHERE option_id = 2;"
 			elif  [ -f "cms/expressionengine/config/database.php" ]
 			then
-				echo '\e[93mPlease log into the dev site ExpressionEngine backend and update the site url! \e[0m'
+				echo -e '\e[93mPlease log into the dev site ExpressionEngine backend and update the site url! \e[0m'
 			fi
 		else
 			echo -e '\e[91mDatabase not found!\e[0m'
