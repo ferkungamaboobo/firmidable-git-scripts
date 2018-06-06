@@ -1,6 +1,9 @@
 #!/bin/bash
 #lives at /etc/profile.d
 
+#sets umask to right setting
+umask 002
+
 #prints the input
 function custom_sh() {
 	echo 'Your input: ' $1
