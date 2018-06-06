@@ -10,7 +10,7 @@ function custom_sh() {
 #copy site into dev directory
 function create_dev_site() {
 	echo -e '\e[33mCreating dev site...\e[0m'
-	echo -e '\e[92mrsync -r --exclude='/dev/' * dev/\e[0m'
+	echo -e '\e[92mrsync -r --exclude="'"/dev/"'" * dev/\e[0m'
 	rsync -r --exclude='/dev/' * dev/
 	echo -e '\e[33mLive site copied to /dev!\e[0m'
 }
@@ -35,7 +35,7 @@ function git_start() {
 	echo -e '\e[92mecho $"'".well-known/\n.well-known/**\ndev/\ndev/**\nnew/\nnew/**\nold/\nold/**\ncgi-bin/\ncgi-bin/**\n.ftpquota\n.database.sh\n.htaccess\n*.key\nerror_log\nwp-config.php\ncms/expressionengine/config/database.php"'" > .gitignore\e[0m'
 	echo $'.well-known/\n.well-known/**\ndev/\ndev/**\nnew/\nnew/**\nold/\nold/**\ncgi-bin/\ncgi-bin/**\n.ftpquota\n.database.sh\n.htaccess\n*.key\nerror_log\nwp-config.php\ncms/expressionengine/config/database.php' > .gitignore
 	echo -e '\e[33mShowing git status...\e[0m'
-	echo '\e[92mgit status\e[0m'
+	echo -e '\e[92mgit status\e[0m'
 	git status
 	echo -e '\e[93mPlease run the following commands:\e[0m'
 	echo -e '\t\e[92mgit add --all\e[0m'
@@ -98,11 +98,11 @@ function git_dev() {
 	echo -e '\e[92mgit worktree add -b dev dev/\e[0m'
 	git worktree add -b dev dev/
 	echo -e '\e[33mChanging permissions on dev directory...\e[0m'
-	echo -e '\e[92mchmod chmod 0755 dev/\e[0m'
-	chmod 0755 dev/
+	echo -e '\e[92mchmod chmod 0775 dev/\e[0m'
+	chmod 0775 dev/
 	echo -e '\e[33mEnsuring permissions on index.php is correct...\e[0m'
-	echo -e '\e[92mchmod 0644 dev/index.php\e[0m'
-	chmod 0644 dev/index.php
+	echo -e '\e[92mchmod 0664 dev/index.php\e[0m'
+	chmod 0664 dev/index.php
 	echo -e '\e[33mCopying .htaccess...\e[0m'
 	echo -e '\e[92mcp -p .htaccess dev/\e[0m'
 	cp -p .htaccess dev/
@@ -194,7 +194,6 @@ function git_nuke_dev() {
 	echo -e '\e[33mDropping all tables in dev database...\e[0m'
 	echo -e '\e[92mmysqldump -u '"$DBUSER"' -p\x27'"$DBPASS"'\x27 '"$DBNAME"' | grep ^DROP | mysql -u '"$DBUSER"' -p\x27'"$DBPASS"'\x27 '"$DBNAME"'\e[0m'
 	mysqldump -u "$DBUSER" -p"$DBPASS" --add-drop-table --no-data "$DBNAME" | grep ^DROP | mysql -u "$DBUSER" -p"$DBPASS" "$DBNAME"
-
 	echo -e '\e[33mListing all worktrees...\e[0m'
 	echo -e '\e[92mgit worktree list\e[0m'
 	git worktree list
