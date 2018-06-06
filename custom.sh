@@ -67,7 +67,7 @@ function db_dev() {
 			echo -e '\e[92mtouch dev/.database.sh\e[0m'
 			touch dev/.database.sh
 			echo -e '\e[33mAdding variables to dev .database.sh file...\e[0m'
-			echo -e "DBUSER=\x22$DBUSER\x22\nDBPASS=\x22$DBPASS\x22\nDBNAME=\x22$DDNAME\x22\nDBPRFX=\x22$DBPRFX\x22\nSITEHM=\x22$SITEDM\x22" > dev/.database.sh
+			echo -e "DBUSER=\x27$DBUSER\x27\nDBPASS=\x27$DBPASS\x27\nDBNAME=\x27$DDNAME\x27\nDBPRFX=\x27$DBPRFX\x27\nSITEHM=\x27$SITEDM\x27" > dev/.database.sh
 			echo -e '\e[33mDev .database.sh created!\e[0m'
 			echo -e '\e[33mChanging permissions on dev .database.sh file...\e[0m'
 			echo -e '\e[92mchmod 0660 dev/.database.sh\e[0m'
