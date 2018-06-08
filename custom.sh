@@ -35,8 +35,8 @@ function git_start() {
 	echo -e '\e[92mtouch .gitignore\e[0m'
 	touch .gitignore
 	echo -e '\e[33mAdding what files to ignore to .gitignore...\e[0m'
-	echo -e '\e[92mecho $"'".well-known/\n.well-known/**\ndev/\ndev/**\nnew/\nnew/**\nold/\nold/**\ncgi-bin/\ncgi-bin/**\n.ftpquota\n.database.sh\n.htaccess\n*.key\nerror_log\nwp-config.php\ncms/expressionengine/config/database.php\ncms/expressionengine/cache/ee_version/current_version"'" > .gitignore\e[0m'
-	echo $'.well-known/\n.well-known/**\ndev/\ndev/**\nnew/\nnew/**\nold/\nold/**\ncgi-bin/\ncgi-bin/**\n.ftpquota\n.database.sh\n.htaccess\n*.key\nerror_log\nwp-config.php\ncms/expressionengine/config/database.php\ncms/expressionengine/cache/ee_version/current_version' > .gitignore
+	echo -e '\e[92mecho $"'".well-known/\n.well-known/**\n.bash_history\n.gitconfig\n.viminfo\ndev/\ndev/**\nnew/\nnew/**\nold/\nold/**\ncgi-bin/\ncgi-bin/**\n.ftpquota\n.database.sh\n.htaccess\n*.key\nerror_log\nwp-config.php\ncms/expressionengine/config/database.php\ncms/expressionengine/cache/ee_version/current_version"'" > .gitignore\e[0m'
+	echo $'.well-known/\n.well-known/**\n.bash_history\n.gitconfig\n.viminfo\ndev/\ndev/**\nnew/\nnew/**\nold/\nold/**\ncgi-bin/\ncgi-bin/**\n.ftpquota\n.database.sh\n.htaccess\n*.key\nerror_log\nwp-config.php\ncms/expressionengine/config/database.php\ncms/expressionengine/cache/ee_version/current_version' > .gitignore
 	echo -e '\e[33mShowing git status...\e[0m'
 	echo -e '\e[92mgit status\e[0m'
 	git status
