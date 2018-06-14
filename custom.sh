@@ -187,6 +187,47 @@ function git_roll_live() {
 	fi
 }
 
+function git_pull_changes() {
+	echo -e '\e[33mMoving to main directory...\e[0m'
+	echo -e '\e[92mcd ~/public_html\e[0m'
+	cd ~/public_html
+	echo -e '\e[33mPulling live database...\e[0m'
+	echo -e '\e[92mdb_pull\e[0m'
+	db_pull
+	echo -e '\e[33mCommiting live site changes to master...\e[0m'
+	echo -e '\e[92mgit add --all\e[0m'
+	git add --all
+	echo -e '\e[92mgit commit -m "Commit live site changes"\e[0m'
+	git commit -m "Commit live site changes"
+	echo -e '\e[33mMoving to dev directory...\e[0m'
+	echo -e '\e[92mcd dev\e[0m'
+	cd dev
+	echo -e '\e[33mEnsuring on dev branch...\e[0m'
+	echo -e '\e[92mgit checkout dev\e[0m'
+	git checkout dev
+	echo -e '\e[33mMerging master to dev...\e[0m'
+	echo -e '\e[92mgit merge master\e[0m'
+	git merge master
+	if [ -f ".database.sh" ]
+	then
+		source .database.sh
+		echo -e '\e[33mPushing db.sql file to the dev database...\e[0m'
+		echo -e '\e[92mmysql -u "$DBUSER" -p"$DBPASS" "$DBNAME" < db.sql\e[0m'
+		mysql -u "$DBUSER" -p"$DBPASS" "$DBNAME" < db.sql
+		if [ -f "wp-config.php" ]
+		then
+			echo -e '\e[33mUpdating WordPress _options table to match the dev site url...\e[0m'
+			echo -e '\e[92mmysql -u '"$DBUSER"' -p\x27'"$DBPASS"'\x27 '"$DBNAME"' -e \x22UPDATE '"$DBPRFX"'options SET option_name=\x27siteurl\x27, option_value=\x27'"$SITEHM"'\x27 WHERE option_id = 1;\x22\e[0m'
+			mysql -u "$DBUSER" -p"$DBPASS" "$DBNAME" -e "UPDATE "$DBPRFX"options SET option_name='siteurl', option_value='$SITEHM' WHERE option_id = 1;"
+			echo -e '\e[92mmysql -u '"$DBUSER"' -p\x27'"$DBPASS"'\x27 '"$DBNAME"' -e \x22UPDATE '"$DBPRFX"'options SET option_name=\x27home\x27, option_value=\x27'"$SITEHM"'\x27 WHERE option_id = 2;\x22\e[0m'
+			mysql -u "$DBUSER" -p"$DBPASS" "$DBNAME" -e "UPDATE "$DBPRFX"options SET option_name='home', option_value='$SITEHM' WHERE option_id = 2;"
+		elif  [ -f "cms/expressionengine/config/database.php" ]
+		then
+			echo -e '\e[93mPlease log into the live site ExpressionEngine backend and update the site url! \e[0m'
+		fi
+	fi
+}
+
 #destroy dev directory & git repo
 function git_nuke_dev() {
 	echo -e '\e[41mOh no!\e[0m'
